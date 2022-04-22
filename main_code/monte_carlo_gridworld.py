@@ -1,6 +1,7 @@
 import random
 import gym
 from gridworld import *
+from monte_carlo_util import *
 
 """
 class that performs monte carlo
@@ -71,8 +72,8 @@ class MonteCarloCartpole:
             self.exploration = self.exploration * 0.9999
 
 
-env = Gridworld(5, 3, 3, (0, 0), False)
+env = Gridworld(15, 3, 3, [(1, 7), (9, 12)], True)
 mc = MonteCarloCartpole(env, 0.7)
-mc.train(100, 20)
+mc.train(1000, 100)
 
 print_heat_map(mc.state_action, env.n)
