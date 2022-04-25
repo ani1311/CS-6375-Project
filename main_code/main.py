@@ -7,11 +7,11 @@ import TDN_cartpole as tdncp
 
 print("Running all experiments")
 
-#  print("Running monte carlo on gridworld")
-#  mcgw.train()
-#
-#  print("Running monte carlo on cartpole")
-#  mccp.train()
+print("Running monte carlo on gridworld")
+mcgw.train()
+
+print("Running monte carlo on cartpole")
+mccp.train()
 
 print("Running TD0 on gridworld")
 td0gw.train()
