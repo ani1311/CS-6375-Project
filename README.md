@@ -1,13 +1,48 @@
 ## Reinforcement Learning
 
-### Todo (Deadline : April 2nd)
+### Requirements:
+The following python packages need to be installed to run the code:
 
-- [ ] Get list of methods to try for RL
-- [ ] Boiler plate for model eval:
-  - [ ] Make generic template that can train and run in any openAI gym env
-- [ ] Try Policy Iteration
+- numpy
+- pygame
+- matplotlib
+- open ai gym
 
-### Resources:
+all of them can be installed using
+`pip3 install numpy pygame gym matplotlib`
 
-Lec: https://www.youtube.com/watch?v=2pWv7GOvuf0&list=PLqYmG7hTraZDM-OYHWgPebj2MfCFzFObQ
-Book: http://incompleteideas.net/book/bookdraft2017nov5.pdf
+### Code brakdown
+The experiments were prototyped in /experiments directory using jupyter
+notebook, and then the file versons were written in main_code
+
+```
+.
++-- experiments: Jupyter notebook of experiments
+|   +-- MonteCarloCartpole.ipynb : Prototype for Monte Carlo cartpole       
+|   +-- MonteCarloCartpoleModel.json : Prototype for Monte Carlo gridworld
+|   +-- TD0_Grid.ipynb : Prototype for TD0 cartpole
+|   +-- TD0_CartPole.ipynb : Prototype for TD0 gridworld
+|   +-- TDN_Grid.ipynb : Prototype for TDN cartpole
+|   +-- TDN_cartpole.ipynb : Prototype for TDN gridworld
++-- main_code
+|   +-- main.py : Main controller code
+|   +-- monte_carlo_gridworld.py : Code runner for Monte Carlo cartpole
+|   +-- monte_carlo_cartpole.py : Code runner for Monte Carlo gridworld
+|   +-- TD0_gridworld.py : Code runner for TD0 cartpole
+|   +-- TD0_cartpole.py : Code runner for TD0 gridworld
+|   +-- TDN_gridworld.py : Code runner for TDN cartpole
+|   +-- TDN_cartpole.py : Code runner for TDN gridworld
+|   +-- (Dir) logs : All logs and code runner outputs are stored
+|   +-- (Dir) saved-models: Model pickle files are stored
+|   +-- gridworld.py: Env for gridworld
+|   +-- model_util.py: Util file
+|   +-- log_util.py: Util file
+|   +-- TD_util.py: Util file
+|   +-- monte_carlo_util.py: Util file
+```     
+
+### How to run code
+
+After installing all dependency, run 
+    `python3 main.py`
+from main_code directory
