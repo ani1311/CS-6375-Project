@@ -92,6 +92,11 @@ class Gridworld:
         """
         return random.choice(self.get_actions())
 
+    def pos_after_step(self, pos, action):
+        x = pos[0] + self.index_to_direction[action][0]
+        y = pos[1] + self.index_to_direction[action][1]
+        return (x, y)
+
     def step(self, action):
         """
             take a step from action

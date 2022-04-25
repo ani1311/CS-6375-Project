@@ -1,5 +1,6 @@
 import random
 import gym
+from log_util import *
 
 
 class TD0_Cartpole:
@@ -22,7 +23,7 @@ class TD0_Cartpole:
         for ep in range(no_episodes):
             obs = self.get_discrete_obs(self.env.reset())
             if ep % 500 == 0:
-                print(avg_ep_len/500)
+                print(ep, avg_ep_len/500)
                 avg_ep_len = 0
             ep_len = 0
             for i in range(episode_length):
@@ -35,6 +36,7 @@ class TD0_Cartpole:
                 if done:
                     break
             avg_ep_len += ep_len
+            write_entry(ep, ep_len)
             self.exploration = self.exploration * 0.9995
 
     def set_state_action(self, sa):
@@ -87,8 +89,17 @@ class TD0_Cartpole:
                     break
 
 
-e = gym.make('CartPole-v1')
-tc = TD0_Cartpole(e, 0.7, 0.4, 0.9, 12)
-tc.train(100000, 502)
+def train():
+    params = {
+        'epsilon': 0.7,
+        'learning_rate': 1,
+        'decay': 1,
+        'scale': 12
+    }
 
-#  tc.run(10)
+    create_file("TD0_cartpole_exponential_decay", params)
+    e = gym.make('CartPole-v1')
+    tc = TD0_Cartpole(e, params['epsilon'], params['learning_rate'],
+                      params['decay'], params['scale'])
+    tc.train(10000, 502)
+    save_file()

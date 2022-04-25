@@ -1,6 +1,7 @@
 import random
 from gridworld import *
 from TD_util import *
+from log_util import *
 
 
 class TDN_Gridworld:
@@ -26,7 +27,7 @@ class TDN_Gridworld:
 
             for i in range(episode_length):
                 action = self.get_action(obs)
-                new_obs, reward, done, _ = env.step(action)
+                new_obs, reward, done, _ = self.env.step(action)
 
                 states.append(obs)
                 actions.append(action)
@@ -113,22 +114,21 @@ class TDN_Gridworld:
         #  print(current_sa, self.state_action[current_sa])
 
 
-env = Gridworld(30, 2, 2, [(0, 0)], True)
-td = TDN_Gridworld(env, 4, 0.1, 1, 1)
-td.train(10000, 90)
+params = {
+    'no_of_states': 30,
+    'n': 4,
+    'epsilon': 0.1,
+    'learning_rate': 1,
+    'decay': 1,
+    'end_states': {(6, 9), (24, 29)}
+}
 
-#  print_heat_map(td.state_action, env.n)
-td.run(500)
 
+def train():
+    global params
+    env = Gridworld(params['no_of_states'], 2, 2, params['end_states'], True)
+    td = TDN_Gridworld(env, params['n'], params['epsilon'], params['learning_rate'],
+                       params['decay'])
+    td.train(10000, 90)
 
-#  at = (4, 4)
-#  act = td.get_best_action(at)
-#  next_at = env.pos_after_step(at, act)
-#  print(at)
-#  print(act)
-#  print(env.index_to_direction[act])
-#  print(next_at)
-#
-#  for k, v in td.state_action.items():
-#      if k[0] == at:
-#          print(k, v)
+    save_heat_map_td("TDN_Gridworld", params, td.state_action, env.n)

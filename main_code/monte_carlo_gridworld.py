@@ -2,13 +2,14 @@ import random
 import gym
 from gridworld import *
 from monte_carlo_util import *
+from log_util import *
 
 """
 class that performs monte carlo
 """
 
 
-class MonteCarloCartpole:
+class MonteCarloGridworld:
     """
     monte carlo for RL
     """
@@ -72,8 +73,18 @@ class MonteCarloCartpole:
             self.exploration = self.exploration * 0.9999
 
 
-env = Gridworld(15, 3, 3, [(1, 7), (9, 12)], True)
-mc = MonteCarloCartpole(env, 0.7)
-mc.train(1000, 100)
+params = {
+    'n': 15,
+    'learning_rate': 0.7,
+    'end_states': {(1, 7), (9, 12)}
+}
 
-print_heat_map(mc.state_action, env.n)
+
+def train():
+    global params
+    env = Gridworld(15, 3, 3, params['end_states'], True)
+    mc = MonteCarloGridworld(env, params['learning_rate'])
+    mc.train(1000, 100)
+
+    save_heat_map_mc("mc_gridworld", params, mc.state_action, params['n'])
+    #  print_heat_map(mc.state_action, env.n)

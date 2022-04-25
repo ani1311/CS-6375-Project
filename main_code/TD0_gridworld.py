@@ -1,6 +1,7 @@
 import random
 from gridworld import *
 from TD_util import *
+from log_util import *
 
 
 class TD0_Gridworld:
@@ -20,7 +21,7 @@ class TD0_Gridworld:
                 continue
             for i in range(episode_length):
                 action = self.get_action(obs)
-                new_obs, reward, done, _ = env.step(action)
+                new_obs, reward, done, _ = self.env.step(action)
                 self.update_state_action(obs, new_obs, action, reward)
                 obs = new_obs
                 if done:
@@ -68,8 +69,21 @@ class TD0_Gridworld:
             reward + self.discount_rate * self.state_action[next_sa] - self.state_action[current_sa])
 
 
-env = Gridworld(15, 1, 1, [(0, 0)], True)
-td = TD0_Gridworld(env, 0.1, 1, 1)
-td.train(1000, 200)
+params = {
+    'n': 15,
+    'epsilon': 0.1,
+    'learning_rate': 1,
+    'decay': 1,
+    'end_states': {(6, 9), (24, 29)}
+}
 
-print_heat_map(td.state_action, env.n)
+
+def train():
+    global params
+
+    env = Gridworld(params['n'], 1, 1, params['end_states'], True)
+    td = TD0_Gridworld(env, params['epsilon'], params['learning_rate'],
+                       params['decay'])
+    td.train(1000, 200)
+
+    save_heat_map_td("TD0_Gridworld", params, td.state_action, params['n'])

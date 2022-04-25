@@ -1,5 +1,6 @@
 import random
 import gym
+from log_util import *
 
 """
 class that performs monte carlo
@@ -44,7 +45,7 @@ class MonteCarloCartpole:
 
         for _ in range(ep_len):
             action = self.get_action(observation)
-            new_observation, reward, done, _ = env.step(action)
+            new_observation, reward, done, _ = self.env.step(action)
             new_observation = self.get_discrete_obs(new_observation)
 
             episode.append([observation, action, reward])
@@ -79,9 +80,10 @@ class MonteCarloCartpole:
             ep = self.get_episode(ep_len)
             self.eval_episode(ep)
             avg_len = avg_len + len(ep)
+            write_entry(i, len(ep))
 
             if i % max_len == 0:
-                print("Avg is", avg_len/max_len)
+                print("Ep ", i, "Avg is", avg_len/max_len)
                 avg_len = 0
 
     def run(self, no_of_runs):
@@ -99,6 +101,10 @@ class MonteCarloCartpole:
                     break
 
 
-env = gym.make('CartPole-v1')
-mc = MonteCarloCartpole(env)
-mc.train(1000, 502)
+def train():
+    create_file("mc_cartpole", {})
+    env = gym.make('CartPole-v0')
+    mc = MonteCarloCartpole(env)
+    mc.train(1000, 502)
+
+    save_file()
